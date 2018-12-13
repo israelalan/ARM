@@ -1,5 +1,6 @@
 	 area     appcode, CODE, READONLY
-	 IMPORT printMsg  
+	 IMPORT printMsg
+	 IMPORT printNewLine
 	 EXPORT __sigmoid
 __sigmoid function
 	VLDR.F32 s5, =0.0 ; B
@@ -23,19 +24,18 @@ loop VMOV.F32 s6,s0
 	 VDIV.F32 s6,s4,s6
 	 ;check answer in S0
 	 BX lr
+	 LTORG
 	
 	 ENDFUNC
-	 export __main	
-	 ENTRY 
-__main  function		 
-	   ; Testing check output here -- s25-AND, s26-OR, s27-NAND, s28-NOR, s29-XOR, s30-XNOR, s31-NOT
-       ; using s7,s8,s9 for inputs
-	   VLDR.F32 s7, =1.0 ; in1
-	   VLDR.F32 s8, =0.0 ; in2
-	   VLDR.F32 s9, =1.0 ; in3
-	   VLDR.F32 s10, =1.0 ; bias
-	   
+	 EXPORT __compute	 
+__compute function
 	   ; AND weights - s11,s12,s13,s14
+	   MOV r5,r14
+	   
+	   VCVTR.S32.F32 s21,s7
+	   VCVTR.S32.F32 s22,s8
+	   VCVTR.S32.F32 s23,s9
+	   
 	   VLDR.F32 s11, =2.0
 	   VLDR.F32 s12, =2.0
 	   VLDR.F32 s13, =2.0
@@ -53,16 +53,23 @@ __main  function
 	   
 	   BL __sigmoid
 	   VCVTR.S32.F32 s25,s6
-	   VMOV.F32 r0,s25
-	   ;VCVT.F32.S32 s25,s25
+	   LDR R0, =0x0000000A
 	   BL printMsg
+	   VMOV.F32 r0,s21
+	   BL printMsg
+	   VMOV.F32 r0,s22
+	   BL printMsg
+	   VMOV.F32 r0,s23
+	   BL printMsg
+	   VMOV.F32 r0,s25
+	   BL printMsg
+	   BL printNewLine
 	   
 	   ; OR weights - s11,s12,s13,s14
 	   VLDR.F32 s11, =2.0
 	   VLDR.F32 s12, =2.0
 	   VLDR.F32 s13, =2.0
 	   VLDR.F32 s14, =-1.0
-	   
 	   VMUL.F32 s11,s11,s7 ; w1*x1
 	   VMUL.F32 s12,s12,s8 ; w2*x2
 	   VMUL.F32 s13,s13,s9 ; w3*x3
@@ -75,9 +82,17 @@ __main  function
 	   
 	   BL __sigmoid
 	   VCVTR.S32.F32 s26,s6
-	   VMOV.F32 r0,s26
-	   ;VCVT.F32.S32 s26,s26
+	   LDR R0, =0x0000000B
 	   BL printMsg
+	   VMOV.F32 r0,s21
+	   BL printMsg
+	   VMOV.F32 r0,s22
+	   BL printMsg
+	   VMOV.F32 r0,s23
+	   BL printMsg
+	   VMOV.F32 r0,s26
+	   BL printMsg
+	   BL printNewLine
 	   
 	   ; NAND weights - s11,s12,s13,s14
 	   VLDR.F32 s11, =-2.0
@@ -97,9 +112,17 @@ __main  function
 	   
 	   BL __sigmoid
 	   VCVTR.S32.F32 s27,s6
-	   VMOV.F32 r0,s27
-	   ;VCVT.F32.S32 s27,s27
+	   LDR R0, =0x0000000C
 	   BL printMsg
+	   VMOV.F32 r0,s21
+	   BL printMsg
+	   VMOV.F32 r0,s22
+	   BL printMsg
+	   VMOV.F32 r0,s23
+	   BL printMsg
+	   VMOV.F32 r0,s27
+	   BL printMsg
+	   BL printNewLine
 	   
 	   ; NOR weights - s11,s12,s13,s14
 	   VLDR.F32 s11, =-2.0
@@ -119,9 +142,17 @@ __main  function
 	   
 	   BL __sigmoid
 	   VCVTR.S32.F32 s28,s6
-	   VMOV.F32 r0,s28
-	   ;VCVT.F32.S32 s28,s28
+	   LDR R0, =0x0000000D
 	   BL printMsg
+	   VMOV.F32 r0,s21
+	   BL printMsg
+	   VMOV.F32 r0,s22
+	   BL printMsg
+	   VMOV.F32 r0,s23
+	   BL printMsg
+	   VMOV.F32 r0,s28
+	   BL printMsg
+	   BL printNewLine
 	   
 	   ; XOR weights - s11,s12,s13,s14
 	   VLDR.F32 s11, =-2.0
@@ -220,9 +251,17 @@ __main  function
 	   
        BL __sigmoid ;Hidden Layer-2 Y1 output
 	   VCVTR.S32.F32 s29,s6
-	   VMOV.F32 r0,s29
-	   ;VCVT.F32.S32 s29,s29
+	   LDR R0, =0x0000000E
 	   BL printMsg
+	   VMOV.F32 r0,s21
+	   BL printMsg
+	   VMOV.F32 r0,s22
+	   BL printMsg
+	   VMOV.F32 r0,s23
+	   BL printMsg
+	   VMOV.F32 r0,s29
+	   BL printMsg
+	   BL printNewLine
 	   
 	   ; XNOR weights - s11,s12,s13,s14
 	   VLDR.F32 s11, =2.0
@@ -323,9 +362,17 @@ __main  function
 	   
        BL __sigmoid ;Hidden Layer-2 Y1 output
 	   VCVTR.S32.F32 s30,s6
-	   VMOV.F32 r0,s30
-	   ;VCVT.F32.S32 s30,s30
+	   LDR R0, =0x0000000F
 	   BL printMsg
+	   VMOV.F32 r0,s21
+	   BL printMsg
+	   VMOV.F32 r0,s22
+	   BL printMsg
+	   VMOV.F32 r0,s23
+	   BL printMsg
+	   VMOV.F32 r0,s30
+	   BL printMsg
+	   BL printNewLine
 	   
 	   ;NOT weight - s11,s14
 	   VLDR.F32 s11, =-2.0
@@ -339,9 +386,56 @@ __main  function
 	   
 	   BL __sigmoid ;Hidden Layer-2 Y1 output
 	   VCVTR.S32.F32 s31,s6
-	   VMOV.F32 r0,s31
-	   ;VCVT.F32.S32 s31,s31
+	   LDR R0, =0x000000AA
 	   BL printMsg
+	   VMOV.F32 r0,s21
+	   BL printMsg
+	   VMOV.F32 r0,s31
+	   BL printMsg
+	   BL printNewLine
+       MOV r14,r5
+	   BX lr
+	   LTORG
+	   ENDFUNC
+	 
+	 export __main	
+	 ENTRY 
+__main  function		 
+	   ; Testing check output here -- s25-AND, s26-OR, s27-NAND, s28-NOR, s29-XOR, s30-XNOR, s31-NOT
+       ; using s7,s8,s9 for inputs
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __compute
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __compute
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __compute
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __compute
+	   
+	   ;------------Printing Format------------
+	   ; S.no  gate  in1  in2  in3  out
+	   ; A --- AND
+	   ; B --- OR
+	   ; C --- NAND
+	   ; D --- NOR
+	   ; E --- XOR
+	   ; F --- XNOR
+	   ; AA -- NOT
 	   
 	   ;BL printMsg	 ; Refer to ARM Procedure calling standards.
 fullstop    B  fullstop ; stop program	   
