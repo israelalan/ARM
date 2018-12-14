@@ -1,6 +1,7 @@
 	 area     appcode, CODE, READONLY
 	 IMPORT printMsg
 	 IMPORT printNewLine
+	 IMPORT printGate
 	 EXPORT __sigmoid
 __sigmoid function
 	VLDR.F32 s5, =0.0 ; B
@@ -27,8 +28,8 @@ loop VMOV.F32 s6,s0
 	 LTORG
 	
 	 ENDFUNC
-	 EXPORT __compute	 
-__compute function
+	 EXPORT __computeAnd	 
+__computeAnd function
 	   ; AND weights - s11,s12,s13,s14
 	   MOV r5,r14
 	   
@@ -53,8 +54,6 @@ __compute function
 	   
 	   BL __sigmoid
 	   VCVTR.S32.F32 s25,s6
-	   LDR R0, =0x0000000A
-	   BL printMsg
 	   VMOV.F32 r0,s21
 	   BL printMsg
 	   VMOV.F32 r0,s22
@@ -65,7 +64,20 @@ __compute function
 	   BL printMsg
 	   BL printNewLine
 	   
+	   MOV r14,r5
+	   BX lr
+	   LTORG
+
+	   ENDFUNC
+	   
+	   EXPORT __computeOr	 
+__computeOr function
 	   ; OR weights - s11,s12,s13,s14
+	   MOV r5,r14
+	   VCVTR.S32.F32 s21,s7
+	   VCVTR.S32.F32 s22,s8
+	   VCVTR.S32.F32 s23,s9
+	   
 	   VLDR.F32 s11, =2.0
 	   VLDR.F32 s12, =2.0
 	   VLDR.F32 s13, =2.0
@@ -82,8 +94,6 @@ __compute function
 	   
 	   BL __sigmoid
 	   VCVTR.S32.F32 s26,s6
-	   LDR R0, =0x0000000B
-	   BL printMsg
 	   VMOV.F32 r0,s21
 	   BL printMsg
 	   VMOV.F32 r0,s22
@@ -94,7 +104,20 @@ __compute function
 	   BL printMsg
 	   BL printNewLine
 	   
+	   MOV r14,r5
+	   BX lr
+	   LTORG
+
+	   ENDFUNC
+	   
+	   EXPORT __computeNand	 
+__computeNand function
 	   ; NAND weights - s11,s12,s13,s14
+	   MOV r5,r14
+	   VCVTR.S32.F32 s21,s7
+	   VCVTR.S32.F32 s22,s8
+	   VCVTR.S32.F32 s23,s9
+	   
 	   VLDR.F32 s11, =-2.0
 	   VLDR.F32 s12, =-2.0
 	   VLDR.F32 s13, =-2.0
@@ -112,8 +135,6 @@ __compute function
 	   
 	   BL __sigmoid
 	   VCVTR.S32.F32 s27,s6
-	   LDR R0, =0x0000000C
-	   BL printMsg
 	   VMOV.F32 r0,s21
 	   BL printMsg
 	   VMOV.F32 r0,s22
@@ -124,7 +145,20 @@ __compute function
 	   BL printMsg
 	   BL printNewLine
 	   
+	   MOV r14,r5
+	   BX lr
+	   LTORG
+
+	   ENDFUNC
+	   
+	   EXPORT __computeNor	 
+__computeNor function
 	   ; NOR weights - s11,s12,s13,s14
+	   MOV r5,r14
+	   VCVTR.S32.F32 s21,s7
+	   VCVTR.S32.F32 s22,s8
+	   VCVTR.S32.F32 s23,s9
+	   
 	   VLDR.F32 s11, =-2.0
 	   VLDR.F32 s12, =-2.0
 	   VLDR.F32 s13, =-2.0
@@ -142,8 +176,6 @@ __compute function
 	   
 	   BL __sigmoid
 	   VCVTR.S32.F32 s28,s6
-	   LDR R0, =0x0000000D
-	   BL printMsg
 	   VMOV.F32 r0,s21
 	   BL printMsg
 	   VMOV.F32 r0,s22
@@ -154,7 +186,20 @@ __compute function
 	   BL printMsg
 	   BL printNewLine
 	   
+	   MOV r14,r5
+	   BX lr
+	   LTORG
+
+	   ENDFUNC
+	   
+	   EXPORT __computeXor	 
+__computeXor function
 	   ; XOR weights - s11,s12,s13,s14
+	   MOV r5,r14
+	   VCVTR.S32.F32 s21,s7
+	   VCVTR.S32.F32 s22,s8
+	   VCVTR.S32.F32 s23,s9
+	   
 	   VLDR.F32 s11, =-2.0
 	   VLDR.F32 s12, =2.0
 	   VLDR.F32 s13, =-2.0
@@ -251,8 +296,6 @@ __compute function
 	   
        BL __sigmoid ;Hidden Layer-2 Y1 output
 	   VCVTR.S32.F32 s29,s6
-	   LDR R0, =0x0000000E
-	   BL printMsg
 	   VMOV.F32 r0,s21
 	   BL printMsg
 	   VMOV.F32 r0,s22
@@ -263,7 +306,20 @@ __compute function
 	   BL printMsg
 	   BL printNewLine
 	   
+	   MOV r14,r5
+	   BX lr
+	   LTORG
+
+	   ENDFUNC
+	   
+	   EXPORT __computeXnor	 
+__computeXnor function
 	   ; XNOR weights - s11,s12,s13,s14
+	   MOV r5,r14
+	   VCVTR.S32.F32 s21,s7
+	   VCVTR.S32.F32 s22,s8
+	   VCVTR.S32.F32 s23,s9
+	   
 	   VLDR.F32 s11, =2.0
 	   VLDR.F32 s12, =-2.0
 	   VLDR.F32 s13, =2.0
@@ -362,8 +418,6 @@ __compute function
 	   
        BL __sigmoid ;Hidden Layer-2 Y1 output
 	   VCVTR.S32.F32 s30,s6
-	   LDR R0, =0x0000000F
-	   BL printMsg
 	   VMOV.F32 r0,s21
 	   BL printMsg
 	   VMOV.F32 r0,s22
@@ -374,7 +428,20 @@ __compute function
 	   BL printMsg
 	   BL printNewLine
 	   
+	   MOV r14,r5
+	   BX lr
+	   LTORG
+
+	   ENDFUNC
+	   
+	   EXPORT __computeNot	 
+__computeNot function
 	   ;NOT weight - s11,s14
+	   MOV r5,r14
+	   VCVTR.S32.F32 s21,s7
+	   VCVTR.S32.F32 s22,s8
+	   VCVTR.S32.F32 s23,s9
+	   
 	   VLDR.F32 s11, =-2.0
 	   VLDR.F32 s14, =1.0
 	   
@@ -386,13 +453,12 @@ __compute function
 	   
 	   BL __sigmoid ;Hidden Layer-2 Y1 output
 	   VCVTR.S32.F32 s31,s6
-	   LDR R0, =0x000000AA
-	   BL printMsg
 	   VMOV.F32 r0,s21
 	   BL printMsg
 	   VMOV.F32 r0,s31
 	   BL printMsg
 	   BL printNewLine
+	   
        MOV r14,r5
 	   BX lr
 	   LTORG
@@ -403,29 +469,161 @@ __compute function
 __main  function		 
 	   ; Testing check output here -- s25-AND, s26-OR, s27-NAND, s28-NOR, s29-XOR, s30-XNOR, s31-NOT
        ; using s7,s8,s9 for inputs
+	   MOV r0,#0
+	   BL printGate
 	   VLDR.F32 s7, =1.0 ; in1
 	   VLDR.F32 s8, =0.0 ; in2
 	   VLDR.F32 s9, =0.0 ; in3
 	   VLDR.F32 s10, =1.0 ; bias
-	   BL __compute
+	   BL __computeAnd
 	   
 	   VLDR.F32 s7, =1.0 ; in1
 	   VLDR.F32 s8, =0.0 ; in2
 	   VLDR.F32 s9, =1.0 ; in3
 	   VLDR.F32 s10, =1.0 ; bias
-	   BL __compute
+	   BL __computeAnd
 	   
 	   VLDR.F32 s7, =1.0 ; in1
 	   VLDR.F32 s8, =1.0 ; in2
 	   VLDR.F32 s9, =0.0 ; in3
 	   VLDR.F32 s10, =1.0 ; bias
-	   BL __compute
+	   BL __computeAnd
 	   
 	   VLDR.F32 s7, =1.0 ; in1
 	   VLDR.F32 s8, =1.0 ; in2
 	   VLDR.F32 s9, =1.0 ; in3
 	   VLDR.F32 s10, =1.0 ; bias
-	   BL __compute
+	   BL __computeAnd
+	   
+	   MOV r0,#1
+	   BL printGate
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeOr
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeOr
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeOr
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeOr
+	   
+	   MOV r0,#2
+	   BL printGate
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeNand
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeNand
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeNand
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeNand
+	   
+	   MOV r0,#3
+	   BL printGate
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeNor
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeNor
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeNor
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeNor
+	   
+	   MOV r0,#4
+	   BL printGate
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeXor
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeXor
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeXor
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeXor
+	   
+	   MOV r0,#5
+	   BL printGate
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeXnor
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =0.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeXnor
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =0.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeXnor
+	   
+	   VLDR.F32 s7, =1.0 ; in1
+	   VLDR.F32 s8, =1.0 ; in2
+	   VLDR.F32 s9, =1.0 ; in3
+	   VLDR.F32 s10, =1.0 ; bias
+	   BL __computeXnor
 	   
 	   ;------------Printing Format------------
 	   ; S.no  gate  in1  in2  in3  out
