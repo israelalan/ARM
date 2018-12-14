@@ -625,16 +625,6 @@ __main  function
 	   VLDR.F32 s10, =1.0 ; bias
 	   BL __computeXnor
 	   
-	   ;------------Printing Format------------
-	   ; S.no  gate  in1  in2  in3  out
-	   ; A --- AND
-	   ; B --- OR
-	   ; C --- NAND
-	   ; D --- NOR
-	   ; E --- XOR
-	   ; F --- XNOR
-	   ; AA -- NOT
-	   
 	   ;BL printMsg	 ; Refer to ARM Procedure calling standards.
 fullstop    B  fullstop ; stop program	   
      endfunc
